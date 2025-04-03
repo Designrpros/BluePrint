@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import { projects } from "@/data/projects";
@@ -14,11 +14,16 @@ type Project = {
   url: string;
 };
 
+// Define the PageProps type for dynamic routes in Next.js
+interface PageProps {
+  params: Promise<{ projectName: string }>; // params can be a Promise in Next.js 15
+}
+
 // Styled Components with Adjusted Design
 
 const LibraryContainer = styled.div`
   min-height: 100vh;
-  background-color: white;
+  background-color: #1a1a1a; /* Match the dark background from RootLayout */
 `;
 
 const Header = styled.header`
@@ -40,7 +45,7 @@ const HeaderContent = styled.div`
 const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 800;
-  color: #1f2937;
+  color: #ffffff; /* White text to contrast with dark background */
   line-height: 1.2;
   @media (min-width: 640px) {
     font-size: 2rem;
@@ -53,7 +58,7 @@ const Title = styled.h1`
 const Description = styled.p`
   margin-top: 1rem;
   font-size: 0.875rem;
-  color: #4b5563;
+  color: #d1d5db; /* Light gray text for readability on dark background */
   max-width: 48rem;
   @media (min-width: 640px) {
     font-size: 1rem;
@@ -145,17 +150,6 @@ const LibrarySection = styled.section`
   }
 `;
 
-const BlueprintGrid = styled.div`
-  position: absolute;
-  inset: 0;
-  background-repeat: repeat;
-  background-size: 20px 20px;
-  opacity: 0.08;
-  pointer-events: none;
-  background-image: linear-gradient(to right, #e5e7eb 1px, transparent 1px),
-    linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
-`;
-
 const LibraryContent = styled.div`
   width: 100%;
   max-width: 1280px;
@@ -173,7 +167,7 @@ const CategorySection = styled.div`
 const CategoryHeader = styled.h2`
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1f2937;
+  color: #ffffff; /* White text to contrast with dark background */
   margin-bottom: 1rem;
   border-bottom: 1px solid #d1d5db;
   padding-bottom: 0.5rem;
@@ -248,12 +242,15 @@ const ComponentDescription = styled.p`
 
 // ComponentsLibraryPage Component
 
-export default function ComponentsLibraryPage({ params }: { params: { projectName: string } }) {
+export default async function ComponentsLibraryPage({ params }: PageProps) {
+  const resolvedParams = await params; // Await the params Promise
+  const projectName = resolvedParams.projectName;
+
   const [isIframeVisible, setIsIframeVisible] = useState(false);
 
   // Find the project based on projectName from the URL params
   const selectedProject = projects.find(
-    (project) => project.name.toLowerCase().replace(/\s/g, "-") === params.projectName
+    (project) => project.name.toLowerCase().replace(/\s/g, "-") === projectName
   ) || projects[0]; // Fallback to first project if not found
 
   const toggleIframe = () => {
@@ -284,7 +281,6 @@ export default function ComponentsLibraryPage({ params }: { params: { projectNam
       </Header>
 
       <LibrarySection>
-        <BlueprintGrid />
         <LibraryContent>
           {libraryComponents.map((category, catIndex) => (
             <CategorySection key={catIndex}>
@@ -294,7 +290,7 @@ export default function ComponentsLibraryPage({ params }: { params: { projectNam
                   <ComponentCard key={compIndex}>
                     {compIndex % 3 !== 2 && <VerticalSeparator />}
                     <Link
-                      href={`/showcase/${params.projectName}/${component.name.toLowerCase().replace(/\s/g, "-")}`}
+                      href={`/showcase/${projectName}/${component.name.toLowerCase().replace(/\s/g, "-")}`}
                     >
                       <ComponentLinkWrapper>
                         <ComponentInfo>
