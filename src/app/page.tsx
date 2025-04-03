@@ -1,103 +1,122 @@
-import Image from "next/image";
+"use client"
+
+import styled from "styled-components";
+import Navbar from "@/components/Navbar";
+import ScatteredLines from "@/components/ScatteredLines";
+
+const HeroSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 64px); /* 100vh minus the navbar height (64px) */
+  position: relative;
+  overflow: hidden;
+  padding-top: 5rem;
+  padding-bottom: 0;
+  width: 100vw; /* Ensure full viewport width */
+  box-sizing: border-box;
+  background-color: #ffffff; /* Dark background similar to the image */
+
+  @media (max-width: 768px) {
+    padding-top: 4rem; /* Reduce padding on smaller screens */
+  }
+
+  @media (max-width: 480px) {
+    padding-top: 3rem;
+  }
+`;
+
+const Title = styled.h1`
+  font-size: 28rem; /* Very large font size to match the image */
+  font-weight: 700; /* Bold to match the image */
+  color: #9d845d;
+  line-height: 0.85;
+  margin: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 2rem;
+  box-sizing: border-box;
+
+  @media (max-width: 1280px) {
+    font-size: 24rem;
+    padding: 0 1.5rem;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 20rem;
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 16rem;
+    padding: 0 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 10rem;
+    padding: 0 0.5rem;
+  }
+
+  @media (max-width: 320px) {
+    font-size: 8rem;
+    padding: 0 0.5rem;
+  }
+`;
+
+const BlueText = styled.span`
+  align-self: flex-start;
+`;
+
+const PrintText = styled.span`
+  align-self: flex-end;
+`;
+
+const Tagline = styled.p`
+  font-size: 1.5rem;
+  color: #333;
+  position: absolute;
+  top: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 1;
+
+  @media (max-width: 1024px) {
+    font-size: 1.3rem;
+    top: 4.5rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    top: 4rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+    top: 3.5rem;
+  }
+
+  @media (max-width: 320px) {
+    font-size: 0.75rem;
+    top: 3rem;
+  }
+`;
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    <>
+      <Navbar />
+      <HeroSection>
+        <ScatteredLines />
+        <Tagline>Build with Precision</Tagline>
+        <Title>
+          <BlueText>Blue</BlueText>
+          <PrintText>Print</PrintText>
+        </Title>
+      </HeroSection>
+    </>
   );
 }
